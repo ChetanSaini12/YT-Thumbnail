@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thumbnail Download</title>
+    <link rel="stylesheet" href="prj1.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <script
+      src="https://kit.fontawesome.com/fdeb7021cc.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <form action="#">
+      <header>Download Thumnail</header>
+      <div class="url-input">
+        <span class="title">Paste Video URL</span>
+        <div class="field">
+          <input
+            type="text"
+            placeholder="https://www.youtube.com/watch?v=FucPPCPDd2Y"
+            required
+          />
+          <input type="hidden" class="hidden-input" />
+          <div class="bottom-line"></div>
+        </div>
+      </div>
+      <div class="preview-area">
+        <img src="" alt="thumbnail" class="thumbnail" />
+        <i class="icon fas fa-cloud-download-alt"></i>
+        <span>Paste video url to see preview</span>
+      </div>
+      <a href="" class="imglnk" download="thumbnail">
+        <button class="download-btn" type="submit">Download Tumbnail</button>
+      </a>
+    </form>
+
+    <script>
+      const urlField = document.querySelector(" .field input"),
+        previewArea = document.querySelector(" .preview-area"),
+        imgTag = previewArea.querySelector(".thumbnail"),
+        lnkTag = previewArea.querySelector(".imglnk");
+
+      hiddenInput = document.querySelector(".hidden-input");
+
+      urlField.onkeyup = () => {
+        let imgUrl = urlField.value; //getting user enetred value
+        let aUrl = urlField.value; //getting user enetred value
+        previewArea.classList.add("active");
+
+        // https://www.youtube.com/watch?v=FucPPCPDd2Y example link
+
+        if (imgUrl.indexOf("https://www.youtube.com/watch?v=") != -1) {
+          // Youtube Link is there
+          let vidId = imgUrl.split("v=")[1].substring(0, 11); //splitting url from v= so we get only video ID
+          let ytThumbUrl = `https://img.youtube.com/vi/${vidId}/maxresdefault.jpg`;
+          imgTag.src = ytThumbUrl; //passing ytthumb url in src of img
+        } else if (imgUrl.indexOf("https://youtu.be/") != -1) {
+          // if url is look like this
+          let vidId = imgUrl.split("be/")[1].substring(0, 11); //splitting url from be/ so we get only video ID
+          let ytThumbUrl = `https://img.youtube.com/vi/${vidId}/maxresdefault.jpg`;
+          imgTag.src = ytThumbUrl; //passing ytthumb url in src of img
+        } else if (imgUrl.match(/\.(jpe?g|png|gif|bmp|webp)$/i)) {
+          // if an image url is there
+          imgTag.src = imgUrl; // already a img url, so passing directly that..
+        } else {
+          imgTag.src = "";
+          previewArea.classList.remove("active");
+        }
+        // hiddenInput.value = imgTag.src; // passing img src for downloading;
+        // let chk = hiddenInput.value;
+        aUrl = imgTag.src;
+        // console.log(chk);
+        lnkTag.href = aUrl;
+      };
+    </script>
+  </body>
+</html>
